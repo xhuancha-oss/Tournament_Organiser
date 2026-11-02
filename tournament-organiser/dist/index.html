@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="创建8人单淘汰赛，管理参赛者、记录比分、自动晋级并保存结果。">
+  <title>Tournament Organiser · 赛事管理</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header><h1>Tournament Organiser</h1><p>8 人单淘汰赛 · 基础版</p></header>
+  <main>
+    <p class="storage-note">比赛会自动保存在当前浏览器，刷新后可继续。不同设备之间暂不共享；重要结果可以导出备份。</p>
+    <div id="message" role="status" aria-live="polite" hidden></div>
+    <section aria-labelledby="create-title">
+      <h2 id="create-title">1. 创建比赛</h2>
+      <form id="create-form" class="inline-form">
+        <label for="tournament-name">比赛名称</label>
+        <input id="tournament-name" name="name" maxlength="80" placeholder="例如：班级乒乓球赛" required autocomplete="off">
+        <button type="submit">创建比赛</button>
+      </form>
+      <div id="saved-list" class="saved-list"></div>
+    </section>
+    <div id="workspace"><section class="empty">先创建一场比赛，再添加 8 名参赛者。</section></div>
+  </main>
+  <footer>单淘汰规则：每场必须分出胜负；四分之一决赛 → 半决赛 → 决赛。</footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
