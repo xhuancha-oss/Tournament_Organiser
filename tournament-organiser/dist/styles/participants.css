@@ -1,0 +1,140 @@
+.participant-management {
+  margin: 18px 0;
+}
+
+.participant-management + #draw-form {
+  margin-bottom: 14px;
+}
+
+.participant-management .pm-heading,
+.participant-management .pm-toolbar,
+.participant-management .pm-buttons,
+.participant-management .pm-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.participant-management h3,
+.participant-management h4 {
+  margin: 0;
+}
+
+.participant-management h4 {
+  font-size: 15px;
+}
+
+.participant-management .pm-count {
+  font-size: 14px;
+  color: #52606e;
+  font-variant-numeric: tabular-nums;
+}
+
+.participant-management .pm-form {
+  margin-top: 12px;
+  padding: 16px;
+  background: #f5f7fa;
+  border: 1px solid #d9dee5;
+  border-radius: 5px;
+}
+
+.participant-management .pm-fields {
+  display: grid;
+  grid-template-columns: minmax(9em, 1fr) minmax(12em, 1.5fr) auto;
+  align-items: end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.participant-management .pm-fields label {
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.participant-management .pm-fields input {
+  width: 100%;
+  font-size: 16px;
+}
+
+.participant-management .pm-toolbar {
+  margin-top: 18px;
+  justify-content: space-between;
+}
+
+.participant-management .pm-search {
+  font-size: 14px;
+  color: #374656;
+}
+
+.participant-management .pm-table {
+  margin: 10px 0 0;
+}
+
+.participant-management .pm-row-actions {
+  width: 8.5em;
+}
+
+.participant-management .pm-row-actions button {
+  padding: 4px 8px;
+  margin: 2px 4px 2px 0;
+}
+
+.participant-management button[data-action="remove"] {
+  color: #86232d;
+}
+
+.participant-management .pm-empty {
+  padding: 18px;
+  text-align: center;
+  color: #52606e;
+}
+
+.participant-management .pm-status,
+.participant-management .pm-error {
+  font-size: 14px;
+  color: #176337;
+  overflow-wrap: anywhere;
+}
+
+.participant-management .pm-error {
+  color: #86232d;
+}
+
+.participant-management .pm-status:empty,
+.participant-management .pm-error:empty {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .participant-management .pm-fields {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .participant-management .pm-buttons {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .participant-management .pm-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .participant-management .pm-search {
+    width: 100%;
+  }
+
+  .participant-management .pm-search input {
+    flex: 1;
+  }
+
+  .participant-management .pm-table :is(th, td) {
+    padding: 6px;
+  }
+
+  .participant-management .pm-row-actions {
+    width: 4.2em;
+  }
+}
