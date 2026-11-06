@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="赛事组织管理系统：填写赛事信息，选择赛制并创建赛事。">
+  <title>创建赛事 · TOURNAMENT</title>
+  <link rel="stylesheet" href="./css/create-tournament.css">
+  <script type="module" src="./js/create-tournament.js"></script>
+</head>
+<body>
+  <aside class="sidebar" aria-label="模块信息">
+    <a class="brand" href="./index.html" aria-label="赛事管理首页"><span class="brand-symbol">T<span>°</span></span><span>TOURNAMENT<small>赛事组织管理系统</small></span></a>
+    <div class="workspace-label">WORKSPACE <span>工作空间</span></div>
+    <div class="active-module"><span aria-hidden="true">＋</span> 创建赛事 <span class="module-number">02</span></div>
+    <div class="sidebar-note"><span class="status-dot"></span> 从这里，开启下一场精彩<p>设定规则，连接热爱。<br>让每一场比赛井然有序。</p></div>
+    <div class="sidebar-footer"><span class="avatar">TO</span><div>赛事工作台<small>Tournament organiser</small></div></div>
+  </aside>
+
+  <div class="workspace">
+    <header class="topbar"><div>赛事管理 <span>/</span> <strong>创建赛事</strong></div><span class="mode-badge" id="mode-badge">本地演示模式</span></header>
+    <main>
+      <div class="page-heading"><div><p class="eyebrow">LET THE GAME BEGIN</p><h1>创建一场新赛事<span>↗</span></h1><p class="subtitle">从一个好名字开始，让精彩的比赛在这里发生。</p></div><span class="heading-tag">赛事设置 <span>01 / 01</span></span></div>
+      <section id="success-panel" class="success-panel" hidden tabindex="-1" aria-labelledby="success-title">
+        <span class="success-icon" aria-hidden="true">✓</span><div><h2 id="success-title">赛事创建成功</h2><p id="success-message"></p><p id="success-detail"></p></div><button type="button" class="button secondary" id="create-another">继续创建</button>
+      </section>
+
+      <div class="content-grid" id="editor">
+        <section class="form-card" aria-labelledby="form-title">
+          <div class="card-heading"><span class="section-number">01</span><div><h2 id="form-title">赛事基本信息</h2><p>填写以下信息，建立你的赛事档案。</p></div><span class="required-note"><span>*</span> 为必填项</span></div>
+          <form id="tournament-form" novalidate>
+            <div class="field"><label for="name">赛事名称 <span class="required">*</span></label><div class="input-with-count"><input id="name" name="name" type="text" required maxlength="80" autocomplete="off" placeholder="例如：2026 校园羽毛球公开赛" aria-describedby="name-error"><span id="name-count" aria-hidden="true">0 / 80</span></div><p class="field-error" id="name-error"></p></div>
+            <div class="field-row"><div class="field"><label for="start-time">开始时间 <span class="required">*</span></label><input id="start-time" name="start_time" type="datetime-local" required aria-describedby="start-time-error"><p class="field-error" id="start-time-error"></p></div><div class="field"><label for="end-time">结束时间 <span class="required">*</span></label><input id="end-time" name="end_time" type="datetime-local" required aria-describedby="end-time-error"><p class="field-error" id="end-time-error"></p></div></div>
+            <p class="time-note">时间按当前设备时区填写：<span id="timezone"></span></p>
+            <fieldset class="format-field" aria-describedby="format-error"><legend>比赛赛制 <span class="required">*</span></legend><p class="field-help">选择适合本次赛事的比赛方式</p><div class="format-options">
+              <label class="format-option"><input type="radio" name="format" value="single_elimination" required checked><span class="format-body"><span class="format-icon" aria-hidden="true">↗</span><strong>单败淘汰</strong><span>一场定胜负<br>节奏紧凑，高效决出冠军</span></span><span class="radio-mark"></span></label>
+              <label class="format-option"><input type="radio" name="format" value="double_elimination"><span class="format-body"><span class="format-icon" aria-hidden="true">⇄</span><strong>双败淘汰</strong><span>一次失利仍有机会<br>兼顾竞技与容错</span></span><span class="radio-mark"></span></label>
+              <label class="format-option"><input type="radio" name="format" value="round_robin"><span class="format-body"><span class="format-icon" aria-hidden="true">⟳</span><strong>循环赛</strong><span>选手依次交锋<br>以积分决定最终排名</span></span><span class="radio-mark"></span></label>
+            </div><p class="field-error" id="format-error"></p></fieldset>
+            <div class="field description-field"><label for="description">赛事说明 <span class="optional">选填</span></label><textarea id="description" name="description" rows="4" maxlength="1000" placeholder="介绍赛事安排、参赛要求或其他需要知道的事项…" aria-describedby="description-error"></textarea><div class="below-textarea"><p class="field-error" id="description-error"></p><span id="description-count">0 / 1000</span></div></div>
+            <div id="form-message" class="form-message" role="alert" hidden></div>
+            <div class="form-footer"><div class="draft-status" id="draft-status" role="status">草稿仅保存在当前浏览器</div><div class="form-actions"><button type="button" class="button secondary" id="reset-button">清空</button><button type="submit" class="button primary" id="submit-button">创建赛事 <span aria-hidden="true">↗</span></button></div></div>
+          </form>
+        </section>
+
+        <aside class="preview-column" aria-label="赛事预览与提示"><section class="preview-card"><div class="preview-top"><span>赛事预览</span><span class="live-label"><i></i> 实时更新</span></div><div class="preview-art" aria-hidden="true"><div class="court"></div><span class="art-word">GAME<br>ON.</span><span class="art-caption">YOUR NEXT CHALLENGE</span><span class="art-cross">✳</span></div><div class="preview-content"><span class="preview-state">待创建</span><h2 id="preview-name">你的下一场精彩赛事</h2><dl><div><dt>比赛赛制</dt><dd id="preview-format">单败淘汰</dd></div><div><dt>开始时间</dt><dd id="preview-start">尚未设置</dd></div><div><dt>结束时间</dt><dd id="preview-end">尚未设置</dd></div></dl><p class="preview-description" id="preview-description" hidden></p></div></section><section class="tips-card"><span class="tips-icon" aria-hidden="true">✧</span><h3>准备好发令了吗？</h3><p>创建赛事后，你们可以在其他模块中添加选手、编排对阵并记录比赛结果。</p><div class="tip-divider"></div><p class="small-tip">清晰的赛事名称和准确的时间安排，是一场好比赛的起点。</p></section><p class="preview-footnote">每一场精彩，都始于精心准备。</p></aside>
+      </div>
+      <footer class="page-footer"><span>TOURNAMENT ORGANISATION SYSTEM</span><span>为每一场热爱，做好准备。</span></footer>
+    </main>
+  </div>
+  <dialog id="reset-dialog" aria-labelledby="reset-title"><h2 id="reset-title">清空当前内容？</h2><p>已填写的信息和本地草稿将被清除。</p><div class="dialog-actions"><button type="button" class="button secondary" id="cancel-reset">继续编辑</button><button type="button" class="button primary" id="confirm-reset">确认清空</button></div></dialog>
+</body>
+</html>
