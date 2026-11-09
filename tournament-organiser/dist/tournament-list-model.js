@@ -1,8 +1,8 @@
-import {champion,completedCount} from './tournament.js';
+import {champion,completedCount} from './tournament.js?v=20261109-en2';
 
-export const STATUS_LABELS = Object.freeze({pending:'待开始','in-progress':'进行中',completed:'已结束'});
+export const STATUS_LABELS = Object.freeze({pending:'Not started','in-progress':'In progress',completed:'Completed'});
 export const SORT_ORDERS = ['updated-desc','created-desc','name-asc'];
-const nameCollator = new Intl.Collator('zh-CN',{numeric:true,sensitivity:'base'});
+const nameCollator = new Intl.Collator('en-GB',{numeric:true,sensitivity:'base'});
 
 export function normaliseSearch(text='') {
   return String(text).normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase();

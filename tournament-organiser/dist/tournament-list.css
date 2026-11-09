@@ -18,11 +18,13 @@
 #result-summary{font-size:14px;color:#52606e;margin:18px 0 10px}
 .tournament-table{min-width:680px;table-layout:fixed;margin:0 0 14px}
 .tournament-table th:first-child{width:30%}
-.tournament-table th:nth-child(2){width:12%}
-.tournament-table th:nth-child(3),.tournament-table th:nth-child(4){width:11%}
-.tournament-table th:nth-child(5){width:20%}
+.tournament-table th:nth-child(2){width:14%}
+.tournament-table th:nth-child(3){width:10%}
+.tournament-table th:nth-child(4){width:11%}
+.tournament-table th:nth-child(5){width:19%}
 .tournament-table th:nth-child(6){width:16%}
 .tournament-table th,.tournament-table td{vertical-align:middle}
+.tournament-table th{overflow-wrap:normal}
 .tournament-table .name-link{color:#174f91;font-weight:600;text-decoration:none}
 .tournament-table .name-link:hover{text-decoration:underline}
 .tournament-table .secondary-line{font-size:12px;color:#52606e;margin:4px 0 0}
@@ -34,6 +36,7 @@
 .progress-bar span{display:block;height:100%;background:#225ca3}
 .row-action,.button-link{display:inline-block;color:#fff;background:#225ca3;border:1px solid #225ca3;border-radius:4px;padding:7px 10px;text-decoration:none;text-align:center;white-space:nowrap}
 .row-action:hover,.button-link:hover{background:#17467e}
+.row-action{white-space:normal;max-width:100%}
 .list-empty{text-align:center;padding:32px 12px;border:1px dashed #cbd2da;border-radius:4px}
 .list-empty p{color:#52606e;margin:10px 0 18px}
 .load-error{border:1px solid #bb3441;background:#fff0f1;color:#86232d;padding:16px;margin:16px 0;border-radius:4px}

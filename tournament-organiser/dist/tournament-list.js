@@ -1,8 +1,8 @@
-import {loadState,STORAGE_KEY} from './tournament.js';
-import {queryTournaments,statusCounts,STATUS_LABELS,SORT_ORDERS,tournamentDetailsHref} from './tournament-list-model.js';
+import {loadState,STORAGE_KEY} from './tournament.js?v=20261109-en2';
+import {queryTournaments,statusCounts,STATUS_LABELS,SORT_ORDERS,tournamentDetailsHref} from './tournament-list-model.js?v=20261109-en2';
 
 const $=selector=>document.querySelector(selector);
-const dateFormat=new Intl.DateTimeFormat('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+const dateFormat=new Intl.DateTimeFormat('en-GB',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
 let tournaments=[];
 let loaded=false;
 
@@ -34,13 +34,15 @@ function makeRow(t){
   const tr=document.createElement('tr');
   const name=cell(),link=document.createElement('a');
   link.className='name-link';link.href=tournamentDetailsHref(t.id);link.textContent=t.name;name.append(link);
-  const extra=document.createElement('p');extra.className='secondary-line';extra.textContent=t.champion?`冠军：${t.champion}`:'8 人单淘汰赛';name.append(extra);
+  const extra=document.createElement('p');extra.className='secondary-line';extra.textContent=t.champion?`Champion: ${t.champion}`:'8-player single elimination';name.append(extra);
   const status=cell(),badge=document.createElement('span');badge.className=`status-badge status-${t.status}`;badge.textContent=t.statusLabel;status.append(badge);
-  const people=cell(`${t.participantCount} / ${t.capacity} 人`);
-  const progress=cell(`${t.completedMatches} / ${t.totalMatches} 场`);
+  const people=cell(`${t.participantCount} / ${t.capacity}`);
+  people.setAttribute('aria-label',`${t.participantCount} of ${t.capacity} players registered`);
+  const progress=cell(`${t.completedMatches} / ${t.totalMatches}`);
+  progress.setAttribute('aria-label',`${t.completedMatches} of ${t.totalMatches} matches completed`);
   const bar=document.createElement('div'),fill=document.createElement('span');bar.className='progress-bar';bar.setAttribute('aria-hidden','true');fill.style.width=`${100*t.completedMatches/t.totalMatches}%`;bar.append(fill);progress.append(bar);
   const updated=cell(),time=document.createElement('time');time.dateTime=t.updatedAt;time.textContent=dateFormat.format(new Date(t.updatedAt));updated.append(time);
-  const action=cell(),open=document.createElement('a');open.className='row-action';open.href=tournamentDetailsHref(t.id);open.textContent=t.status==='completed'?'查看结果':t.status==='pending'?'管理选手':'继续比赛';open.setAttribute('aria-label',`${open.textContent}：${t.name}`);action.append(open);
+  const action=cell(),open=document.createElement('a');open.className='row-action';open.href=tournamentDetailsHref(t.id);open.textContent=t.status==='completed'?'View results':t.status==='pending'?'Manage players':'Continue tournament';open.setAttribute('aria-label',`${open.textContent}: ${t.name}`);action.append(open);
   tr.append(name,status,people,progress,updated,action);return tr;
 }
 
@@ -50,10 +52,10 @@ function renderRows(){
   const body=$('#tournament-rows');body.replaceChildren(...rows.map(makeRow));
   $('#table-wrap').hidden=!rows.length;
   $('#empty-state').hidden=!!rows.length;
-  $('#result-summary').textContent=`共 ${tournaments.length} 场赛事，当前显示 ${rows.length} 场。`;
+  $('#result-summary').textContent=`Showing ${rows.length} of ${tournaments.length} tournaments.`;
   const empty=!tournaments.length;
-  $('#empty-title').textContent=empty?'还没有赛事':'没有符合条件的赛事';
-  $('#empty-description').textContent=empty?'创建一场比赛，添加选手后即可开始组织赛事。':'请尝试其他赛事名称或状态，或清空筛选查看全部赛事。';
+  $('#empty-title').textContent=empty?'No tournaments yet':'No matching tournaments';
+  $('#empty-description').textContent=empty?'Create a tournament and add players to get started.':'Try a different tournament name or status, or clear the filters to show all tournaments.';
   $('#empty-create').hidden=!empty;
   $('#empty-reset').hidden=empty;
 }
@@ -70,8 +72,8 @@ function refresh(){
     for(const id of ['all','pending','in-progress','completed'])$(`#count-${id}`).textContent='—';
     $('#table-wrap').hidden=true;$('#empty-state').hidden=true;
     $('#tournament-rows').replaceChildren();
-    $('#result-summary').textContent='暂时无法读取赛事。';
-    $('#load-error-message').textContent=`${error.message} 原有数据未被修改。请检查浏览器存储设置；如果数据已损坏，请先备份，再联系维护者处理。`;
+    $('#result-summary').textContent='Unable to load tournaments.';
+    $('#load-error-message').textContent=`${error.message} Your saved records have not been changed. Check browser storage settings. If the data is damaged, back it up before contacting the maintainer.`;
     $('#load-error').hidden=false;
   }finally{$('#list-section').setAttribute('aria-busy','false');}
 }
