@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="查看和搜索赛事，按待开始、进行中、已结束筛选，打开赛事查看对阵和比赛结果。">
+  <title>赛事列表 · Tournament Organiser</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./tournament-list.css">
+</head>
+<body>
+  <header class="list-header">
+    <p class="project-name">Tournament Organiser · 赛事组织管理系统</p>
+    <h1>赛事列表</h1>
+    <p>查找比赛，查看比赛状态与进度。</p>
+    <nav class="page-nav" aria-label="主导航">
+      <a href="./TournamentList.html" aria-current="page">赛事列表</a>
+      <a href="./index.html#create-title">创建赛事</a>
+      <a href="./index.html">比赛管理</a>
+    </nav>
+  </header>
+  <main>
+    <p class="storage-note">当前显示此浏览器保存的赛事。创建赛事或更新比分后，返回本页即可查看最新状态。</p>
+    <noscript><p class="load-error">请启用 JavaScript，以加载和搜索赛事。</p></noscript>
+    <section aria-labelledby="overview-title">
+      <h2 id="overview-title">赛事概况</h2>
+      <dl class="summary-grid">
+        <div><dt>全部赛事</dt><dd id="count-all">—</dd></div>
+        <div><dt>待开始</dt><dd id="count-pending">—</dd></div>
+        <div><dt>进行中</dt><dd id="count-in-progress">—</dd></div>
+        <div><dt>已结束</dt><dd id="count-completed">—</dd></div>
+      </dl>
+    </section>
+    <section aria-labelledby="list-title" id="list-section" aria-busy="true">
+      <div class="section-head">
+        <h2 id="list-title">查找赛事</h2>
+        <button type="button" id="refresh-list" class="secondary">刷新赛事</button>
+      </div>
+      <form id="filter-form" class="filter-form" role="search" aria-label="搜索和筛选赛事">
+        <div class="search-field">
+          <label for="search-name">赛事名称</label>
+          <input type="search" id="search-name" name="q" maxlength="80" placeholder="输入赛事名称，支持部分名称搜索" autocomplete="off">
+        </div>
+        <div>
+          <label for="filter-status">赛事状态</label>
+          <select id="filter-status" name="status">
+            <option value="all">全部状态</option>
+            <option value="pending">待开始</option>
+            <option value="in-progress">进行中</option>
+            <option value="completed">已结束</option>
+          </select>
+        </div>
+        <div>
+          <label for="sort-order">排序方式</label>
+          <select id="sort-order" name="sort">
+            <option value="updated-desc">最近更新优先</option>
+            <option value="created-desc">最近创建优先</option>
+            <option value="name-asc">赛事名称排序</option>
+          </select>
+        </div>
+        <button type="submit">搜索</button>
+        <button type="button" id="clear-filters" class="secondary">清空筛选</button>
+      </form>
+      <p id="result-summary" role="status" aria-live="polite" aria-atomic="true">正在读取赛事…</p>
+      <div id="load-error" class="load-error" role="alert" hidden>
+        <strong>赛事读取失败</strong>
+        <p id="load-error-message"></p>
+        <button type="button" id="retry-list" class="secondary">重新读取</button>
+      </div>
+      <div id="table-wrap" class="results-wrap" hidden>
+        <table class="tournament-table">
+          <caption class="sr-only">赛事列表，包括状态、参赛人数、完成场次、更新时间和赛事入口</caption>
+          <thead><tr><th scope="col">赛事名称</th><th scope="col">状态</th><th scope="col">参赛人数</th><th scope="col">完成场次</th><th scope="col">更新时间</th><th scope="col">操作</th></tr></thead>
+          <tbody id="tournament-rows"></tbody>
+        </table>
+      </div>
+      <div id="empty-state" class="list-empty" hidden>
+        <h3 id="empty-title"></h3>
+        <p id="empty-description"></p>
+        <a id="empty-create" class="button-link" href="./index.html#create-title">创建第一场赛事</a>
+        <button type="button" id="empty-reset" class="secondary" hidden>显示全部赛事</button>
+      </div>
+      <p class="hint">待开始：尚未生成对阵；进行中：对阵已生成，冠军尚未产生；已结束：决赛已有结果。</p>
+    </section>
+  </main>
+  <footer>模块 1 · 赛事列表　|　8 人单淘汰赛</footer>
+  <script type="module" src="./tournament-list.js"></script>
+</body>
+</html>

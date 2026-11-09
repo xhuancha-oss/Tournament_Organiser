@@ -4,8 +4,14 @@ const $=selector=>document.querySelector(selector);
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let state={version:1,activeId:null,tournaments:[]};
 let storageBlocked=false;
+let requestedTournamentMissing=false;
 function notify(text,error=false){$('#message').textContent=text;$('#message').className=error?'error':'';$('#message').hidden=false;}
 try{state=loadState(localStorage);}catch(e){storageBlocked=true;notify('无法读取已保存的数据，已停止写入以保护原记录。请导出或备份浏览器数据后再处理。'+e.message,true);}
+const requestedTournamentId=new URLSearchParams(location.search).get('tournament');
+if(requestedTournamentId!==null&&!storageBlocked){
+  if(state.tournaments.some(t=>t.id===requestedTournamentId))state.activeId=requestedTournamentId;
+  else{requestedTournamentMissing=true;notify('找不到指定赛事，请返回赛事列表重新选择。',true);}
+}
 function current(){return state.tournaments.find(t=>t.id===state.activeId);}
 function commit(next){
   if(storageBlocked) throw new Error('当前浏览器数据无法读取，暂不能保存新比赛。');
@@ -21,6 +27,8 @@ $('#create-form').addEventListener('submit',event=>{
   attempt(()=>{
     const t=createTournament($('#tournament-name').value);
     commit({...state,activeId:t.id,tournaments:[t,...state.tournaments]});
+    requestedTournamentMissing=false;
+    const url=new URL(location.href);url.searchParams.set('tournament',t.id);history.replaceState(null,'',url);
     $('#create-form').reset();render();notify('比赛已创建，请填写 8 名选手。');$('#player-0').focus();
   });
 });
@@ -28,7 +36,8 @@ $('#create-form').addEventListener('submit',event=>{
 function render(){
   const t=current();
   $('#saved-list').innerHTML=state.tournaments.length?`<label for="saved-select">已保存的比赛</label><select id="saved-select">${state.tournaments.map(item=>`<option value="${escape(item.id)}" ${item.id===state.activeId?'selected':''}>${escape(item.name)} · ${champion(item)?'已结束':item.rounds?'进行中':'待开始'}</option>`).join('')}</select>`:'';
-  $('#saved-select')?.addEventListener('change',event=>attempt(()=>{commit({...state,activeId:event.target.value});render();notify('已打开保存的比赛。');}));
+  $('#saved-select')?.addEventListener('change',event=>attempt(()=>{commit({...state,activeId:event.target.value});requestedTournamentMissing=false;const url=new URL(location.href);url.searchParams.set('tournament',state.activeId);history.replaceState(null,'',url);render();notify('已打开保存的比赛。');}));
+  if(requestedTournamentMissing){$('#workspace').innerHTML='<section class="empty"><h2>赛事不存在或已移除</h2><p>请返回列表选择其他赛事，或在上方创建赛事。</p><a href="./TournamentList.html">返回赛事列表</a></section>';return;}
   if(!t){$('#workspace').innerHTML='<section class="empty">先创建一场比赛，再添加 8 名参赛者。</section>';return;}
   const won=champion(t);
   $('#workspace').innerHTML=`
@@ -84,7 +93,14 @@ function bind(t){
 }
 
 window.addEventListener('storage',event=>{
-  if(event.key!=='tournament-organiser-v1')return;
-  try{state=loadState(localStorage);storageBlocked=false;render();notify('比赛数据已与另一个标签页同步。');}catch{storageBlocked=true;notify('另一个标签页的数据无法读取，已暂停保存。',true);}
+  if(event.key!=='tournament-organiser-v1'&&event.key!==null)return;
+  try{
+    const pageId=new URLSearchParams(location.search).get('tournament')??state.activeId;
+    state=loadState(localStorage);
+    requestedTournamentMissing=pageId!==null&&!state.tournaments.some(t=>t.id===pageId);
+    if(pageId!==null&&!requestedTournamentMissing)state.activeId=pageId;
+    storageBlocked=false;render();
+    notify(requestedTournamentMissing?'找不到指定赛事，请返回赛事列表重新选择。':'比赛数据已与另一个标签页同步。',requestedTournamentMissing);
+  }catch{storageBlocked=true;notify('另一个标签页的数据无法读取，已暂停保存。',true);}
 });
 render();
