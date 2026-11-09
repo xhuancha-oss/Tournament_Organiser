@@ -73,7 +73,8 @@
 }
 
 .participant-management .pm-row-actions {
-  width: 8.5em;
+  width: 10.5em;
+  white-space: nowrap;
 }
 
 .participant-management .pm-row-actions button {
@@ -135,6 +136,12 @@
   }
 
   .participant-management .pm-row-actions {
-    width: 4.2em;
+    width: 1%;
+    white-space: normal;
+  }
+
+  .participant-management .pm-table th,
+  .participant-management .pm-row-actions button {
+    white-space: nowrap;
   }
 }
