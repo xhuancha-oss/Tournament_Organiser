@@ -19,21 +19,21 @@ export function listParticipants(tournament, query = '') {
 }
 
 function requireDraft(tournament) {
-  if (tournament.rounds) throw new Error('比赛已经开始，选手名单已锁定。');
+  if (tournament.rounds) throw new Error('The tournament has started and the roster is locked.');
 }
 
 function requireParticipant(tournament, slot) {
   if (!Number.isInteger(slot) || !tournament.players[slot]?.trim()) {
-    throw new Error('找不到该选手，请刷新名单后重试。');
+    throw new Error('Participant not found. Refresh the roster and try again.');
   }
 }
 
 function cleanEmail(value = '') {
-  if (typeof value !== 'string') throw new Error('邮箱格式不正确。');
+  if (typeof value !== 'string') throw new Error('Enter a valid email address.');
   const email = value.trim();
   const validEmail = /^[a-z\d.!#$%&'*+\/=?^_`{|}~-]+@[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?(?:\.[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?)*$/i;
   if (email.length > 254 || (email && !validEmail.test(email))) {
-    throw new Error('请输入有效的邮箱地址。');
+    throw new Error('Enter a valid email address.');
   }
   return email;
 }
@@ -53,7 +53,7 @@ export function saveParticipant(tournament, slot, { name, email }) {
   requireDraft(tournament);
   if (slot === null) {
     slot = tournament.players.findIndex(player => !player.trim());
-    if (slot === -1) throw new Error('8 个选手名额已满。');
+    if (slot === -1) throw new Error('All 8 participant slots are full.');
   } else {
     requireParticipant(tournament, slot);
   }
@@ -62,10 +62,10 @@ export function saveParticipant(tournament, slot, { name, email }) {
   const cleanedEmail = cleanEmail(email);
   const others = listParticipants(tournament).filter(row => row.slot !== slot);
   if (others.some(row => searchKey(row.name) === searchKey(cleanedName))) {
-    throw new Error('选手姓名不能重复，同名选手请加编号。');
+    throw new Error('A participant already has that name. Add a number to distinguish them.');
   }
   if (cleanedEmail && others.some(row => searchKey(row.email) === searchKey(cleanedEmail))) {
-    throw new Error('这个邮箱已被其他选手使用。');
+    throw new Error('Another participant already uses this email address.');
   }
   return replaceParticipant(tournament, slot, cleanedName, cleanedEmail);
 }

@@ -1,23 +1,24 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>选手管理预览 · Tournament Organiser</title>
+  <title>Participant management preview · Tournament Organiser</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./styles/participants.css">
 </head>
 <body>
-  <header><h1>选手管理预览</h1></header>
+  <header><h1>Participant management preview</h1></header>
   <main>
-    <p class="storage-note">此处可试用 8 人名单。刷新后清空预览数据。 <a href="./index.html">返回赛事主页</a></p>
-    <section id="participant-preview" aria-label="选手管理"></section>
+    <p class="storage-note">Try managing an eight-player roster. Refresh the page to start over. <a href="./index.html">Back to tournaments</a></p>
+    <section id="participant-preview" aria-label="Participant management"></section>
   </main>
   <script type="module">
     import {createTournament} from './tournament.js';
-    import {initParticipantManagement} from './modules/participants.js';
+    import {initParticipantManagement, useEnglishValidation} from './modules/participants.js';
 
-    let preview = createTournament('预览', 'preview');
+    useEnglishValidation(document);
+    let preview = createTournament('Preview', 'preview');
     initParticipantManagement(document.querySelector('#participant-preview'), {
       getTournament: () => preview,
       onChange(next) { preview = next; }

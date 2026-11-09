@@ -53,7 +53,7 @@ test('emails stay with names after a random draw and reload, including reserved 
   for (const [index, name] of names.entries()) {
     t = saveParticipant(t, null, { name, email: 'p' + index + '@club.example' });
   }
-  assert.throws(() => saveParticipant(t, null, { name: '候补' }), /已满/);
+  assert.throws(() => saveParticipant(t, null, { name: '候补' }), /full/);
   t = startTournament(t, t.players, true, () => 0);
   assert.notDeepEqual(t.players, names);
   let raw;
@@ -64,7 +64,7 @@ test('emails stay with names after a random draw and reload, including reserved 
     assert.equal(restored.players[slot], name);
     assert.equal(email, 'p' + names.indexOf(name) + '@club.example');
   }
-  assert.throws(() => saveParticipant(restored, null, { name: '候补' }), /锁定/);
-  assert.throws(() => saveParticipant(restored, 0, { name: '候补' }), /锁定/);
-  assert.throws(() => removeParticipant(restored, 0), /锁定/);
+  assert.throws(() => saveParticipant(restored, null, { name: '候补' }), /locked/);
+  assert.throws(() => saveParticipant(restored, 0, { name: '候补' }), /locked/);
+  assert.throws(() => removeParticipant(restored, 0), /locked/);
 });

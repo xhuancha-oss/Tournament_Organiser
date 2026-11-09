@@ -14,7 +14,7 @@ test('complete seven matches and preserve champion across reload',()=>{
   const memory=new Map();const storage={getItem:k=>memory.get(k),setItem:(k,v)=>memory.set(k,v)};
   saveState(storage,{version:1,activeId:t.id,tournaments:[t]});
   const restored=loadState(storage).tournaments[0];assert.deepEqual(restored,t);
-  assert.match(exportText(restored),/冠军：丙/);assert.match(exportText(restored),/12 : 10/);
+  assert.match(exportText(restored),/Champion: 丙/);assert.match(exportText(restored),/12 : 10/);
 });
 test('names and player count must be valid',()=>{
   assert.throws(()=>createTournament('   '));

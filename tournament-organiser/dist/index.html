@@ -1,30 +1,30 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="创建8人单淘汰赛，管理参赛者、记录比分、自动晋级并保存结果。">
-  <title>Tournament Organiser · 赛事管理</title>
+  <meta name="description" content="Run an eight-player single-elimination tournament, manage participants, record scores and save results.">
+  <title>Tournament Organiser</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./styles/participants.css">
 </head>
 <body>
-  <header><h1>Tournament Organiser</h1><p>8 人单淘汰赛 · 基础版</p></header>
+  <header><h1>Tournament Organiser</h1><p>Eight-player single-elimination tournament</p></header>
   <main>
-    <p class="storage-note">比赛会自动保存在当前浏览器，刷新后可继续。不同设备之间暂不共享；重要结果可以导出备份。 <a href="./participants.html">独立预览选手管理</a></p>
+    <p class="storage-note">This browser saves your tournaments automatically. Return here to resume play, or export results to keep a copy. <a href="./participants.html">Preview participant management</a></p>
     <div id="message" role="status" aria-live="polite" hidden></div>
     <section aria-labelledby="create-title">
-      <h2 id="create-title">1. 创建比赛</h2>
+      <h2 id="create-title">1. Create a tournament</h2>
       <form id="create-form" class="inline-form">
-        <label for="tournament-name">比赛名称</label>
-        <input id="tournament-name" name="name" maxlength="80" placeholder="例如：班级乒乓球赛" required autocomplete="off">
-        <button type="submit">创建比赛</button>
+        <label for="tournament-name">Tournament name</label>
+        <input id="tournament-name" name="name" maxlength="80" placeholder="e.g. School table tennis cup" required autocomplete="off">
+        <button type="submit">Create tournament</button>
       </form>
       <div id="saved-list" class="saved-list"></div>
     </section>
-    <div id="workspace"><section class="empty">先创建一场比赛，再添加 8 名参赛者。</section></div>
+    <div id="workspace"><section class="empty">Create a tournament, then add eight participants.</section></div>
   </main>
-  <footer>单淘汰规则：每场必须分出胜负；四分之一决赛 → 半决赛 → 决赛。</footer>
+  <footer>Every match must have a winner. Quarterfinal winners advance to the semifinals, then semifinal winners play in the final.</footer>
   <script type="module" src="./app.js"></script>
 </body>
 </html>
