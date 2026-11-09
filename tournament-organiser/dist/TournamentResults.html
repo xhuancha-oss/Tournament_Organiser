@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="赛事组织管理系统模块 6：显示冠军、获胜记录和全员最终排名。">
+  <title>冠军与结果展示 · Tournament Organiser</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./tournament-results.css">
+</head>
+<body>
+  <header class="results-header">
+    <p class="project-name">Tournament Organiser · 赛事组织管理系统</p>
+    <h1>冠军与结果展示</h1>
+    <p>查看赛事最终结果、冠军荣誉、全员排名榜单与获胜记录。</p>
+    <nav class="page-nav" aria-label="主导航">
+      <a href="./TournamentList.html">赛事列表</a>
+      <a href="./index.html#create-title">创建赛事</a>
+      <a href="./index.html">比赛管理</a>
+      <a href="./TournamentResults.html" aria-current="page">结果展示</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="storage-note">
+      当前数据来自此浏览器本地存储。当其他窗口或模块更新比分并产生冠军时，本页会自动同步刷新。
+    </p>
+
+    <!-- 顶部消息提示区 -->
+    <div id="message-toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- 赛事选择与切换卡片 -->
+    <section class="tournament-picker-card" aria-label="赛事选择与切换">
+      <div class="picker-select-group">
+        <label for="tournament-select">当前查看赛事：</label>
+        <select id="tournament-select" aria-label="选择要查看的赛事"></select>
+      </div>
+      <div class="picker-actions">
+        <button type="button" id="refresh-results" class="secondary" title="从本地存储刷新最新数据">刷新数据</button>
+        <a id="btn-goto-manage" class="button-link" href="./index.html">前往比赛管理录分 ↗</a>
+      </div>
+    </section>
+
+    <!-- 冠军荣耀与领奖台展示容器 -->
+    <div id="champion-hero-container"></div>
+
+    <!-- 冠军晋级之路时间线 -->
+    <section id="champion-journey-section" aria-labelledby="journey-title" hidden>
+      <h2 id="journey-title">🔥 冠军夺冠晋级之路 (Road to Victory)</h2>
+      <p class="hint">直观展现冠军选手从首轮淘汰赛直至决胜夺冠的完整战绩轨迹与对手。</p>
+      <div class="journey-timeline" id="journey-steps-list"></div>
+    </section>
+
+    <!-- 全员最终排名榜单 -->
+    <section aria-labelledby="standings-title">
+      <div class="section-head">
+        <h2 id="standings-title">📊 全员最终排名 (Final Standings)</h2>
+        <span class="tag">淘汰赛积分与净胜分科学排序</span>
+      </div>
+
+      <div class="standings-toolbar">
+        <div class="standings-search-box">
+          <label for="standings-search">搜索选手：</label>
+          <input type="search" id="standings-search" placeholder="输入选手姓名快速定位…" autocomplete="off">
+        </div>
+        <div class="standings-sort-box">
+          <label for="standings-sort">排序依据：</label>
+          <select id="standings-sort">
+            <option value="rank-asc">按综合名次 (默认)</option>
+            <option value="points-desc">按总得分从高到低</option>
+            <option value="diff-desc">按净胜分从高到低</option>
+            <option value="winrate-desc">按胜率从高到低</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-wrap">
+        <table class="standings-table">
+          <caption class="sr-only">赛事全员最终排名表，包含名次、选手、止步阶段、胜负记录、得失分与胜率</caption>
+          <thead>
+            <tr>
+              <th scope="col">名次</th>
+              <th scope="col">选手姓名</th>
+              <th scope="col">成绩阶段</th>
+              <th scope="col">胜负战绩</th>
+              <th scope="col">得分 / 失分</th>
+              <th scope="col">净胜分</th>
+              <th scope="col">胜率</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+      <p class="hint">排名规则：冠军与亚军由决赛决出；3~4 名由半决赛负者按净胜分与小分排序；5~8 名按首轮净胜分排序。</p>
+    </section>
+
+    <!-- 比赛获胜记录与比分明细 -->
+    <section aria-labelledby="history-title">
+      <div class="section-head">
+        <h2 id="history-title">📝 全场比赛获胜记录 (Match Records)</h2>
+        <span class="tag">共 7 场对决</span>
+      </div>
+
+      <!-- 轮次筛选标签 -->
+      <div class="match-filter-tabs" role="tablist" aria-label="比赛轮次筛选">
+        <button type="button" class="tab-btn active" data-round="all">全部对阵 (7)</button>
+        <button type="button" class="tab-btn" data-round="0">四分之一决赛 (4)</button>
+        <button type="button" class="tab-btn" data-round="1">半决赛 (2)</button>
+        <button type="button" class="tab-btn" data-round="2">决赛 (1)</button>
+      </div>
+
+      <div class="match-history-grid" id="match-cards-container"></div>
+    </section>
+
+    <!-- 赛事趣味统计与数据分析 -->
+    <section aria-labelledby="analytics-title">
+      <h2 id="analytics-title">📈 赛事数据洞察与统计 (Tournament Insights)</h2>
+      <dl class="stats-grid" id="analytics-grid">
+        <div class="stat-item">
+          <dt>赛事总得分</dt>
+          <dd id="stat-total-points">—</dd>
+          <div class="stat-desc">所有完赛选手累计得分</div>
+        </div>
+        <div class="stat-item">
+          <dt>场均得分</dt>
+          <dd id="stat-avg-points">—</dd>
+          <div class="stat-desc">平均每场比赛总分</div>
+        </div>
+        <div class="stat-item">
+          <dt>单场最高分对局</dt>
+          <dd id="stat-highest-match" style="font-size:16px;">—</dd>
+          <div class="stat-desc">对攻大战单场最高合计得分</div>
+        </div>
+        <div class="stat-item">
+          <dt>最激烈胶着对局</dt>
+          <dd id="stat-closest-match" style="font-size:16px;">—</dd>
+          <div class="stat-desc">双方分差最小的关键战役</div>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 战报导出与分享操作面板 -->
+    <section aria-labelledby="export-title">
+      <h2 id="export-title">📤 战报生成与导出分享</h2>
+      <p class="hint">一键复制微信/QQ战报、导出 Excel 友好 CSV 排名、下载完整 JSON 备份或打印战报。</p>
+      <div class="export-panel">
+        <button type="button" id="btn-copy-summary" class="button-success">📋 一键复制文本战报</button>
+        <button type="button" id="btn-export-csv" class="secondary">📊 导出排名 CSV 表格</button>
+        <button type="button" id="btn-export-json" class="secondary">💾 导出完整 JSON 数据</button>
+        <button type="button" id="btn-print-results" class="secondary">🖨️ 打印 / 保存为 PDF</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>模块 6 · 冠军与结果展示　|　8 人单淘汰赛 · 风格统一</footer>
+  <script type="module" src="./tournament-results.js"></script>
+</body>
+</html>

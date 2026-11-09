@@ -1,0 +1,614 @@
+/* tournament-results.css · 模块 6 冠军与结果展示专属样式 */
+[hidden] {
+  display: none !important;
+}
+
+.project-name {
+  font-size: 14px;
+  color: #52606e;
+  margin-bottom: 8px;
+}
+
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 18px;
+}
+
+.page-nav a {
+  color: #225ca3;
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.page-nav a:hover {
+  text-decoration: underline;
+}
+
+.page-nav a[aria-current="page"] {
+  color: #1d2733;
+  font-weight: 700;
+  border-bottom-color: #225ca3;
+}
+
+.button-link {
+  display: inline-block;
+  color: #fff;
+  background: #225ca3;
+  border: 1px solid #225ca3;
+  border-radius: 4px;
+  padding: 7px 12px;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.button-link:hover {
+  background: #17467e;
+}
+
+/* 顶部选择与赛事切换栏 */
+.results-header h1 {
+  margin-bottom: 4px;
+}
+
+.tournament-picker-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: #fff;
+  border: 1px solid #d9dee5;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.picker-select-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.picker-select-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2733;
+  white-space: nowrap;
+}
+
+.picker-select-group select {
+  flex: 1;
+  min-width: 200px;
+  height: 40px;
+}
+
+.picker-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 冠军与领奖台区 */
+.champion-hero {
+  background: linear-gradient(135deg, #fffbf0 0%, #fff 100%);
+  border: 2px solid #e8b339;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(212, 136, 6, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.champion-hero::after {
+  content: "🏆";
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 88px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.champion-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdf3d8;
+  color: #945b00;
+  border: 1px solid #ecd38c;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.champion-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.champion-name {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1d2733;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.champion-honor-text {
+  font-size: 15px;
+  color: #6d511f;
+  margin: 6px 0 0;
+}
+
+/* 三甲颁奖台 (Top 3 Podium) */
+.podium-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+  align-items: end;
+}
+
+.podium-card {
+  background: #fff;
+  border: 1px solid #d9dee5;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.podium-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.podium-1 {
+  order: 2;
+  border-color: #e8b339;
+  background: linear-gradient(to top, #fffdf5, #fff);
+  box-shadow: 0 3px 12px rgba(232, 179, 57, 0.15);
+  padding: 22px 16px;
+}
+
+.podium-2 {
+  order: 1;
+  border-color: #adb5bd;
+  background: linear-gradient(to top, #f8f9fa, #fff);
+}
+
+.podium-3 {
+  order: 3;
+  border-color: #d19766;
+  background: linear-gradient(to top, #fdfaf7, #fff);
+}
+
+.podium-rank-badge {
+  display: inline-block;
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.podium-title {
+  font-size: 13px;
+  color: #52606e;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.podium-player {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1d2733;
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
+
+.podium-1 .podium-player {
+  font-size: 22px;
+  color: #8c5b00;
+}
+
+.podium-sub {
+  font-size: 12px;
+  color: #52606e;
+}
+
+/* 进行中 / 待开始状态横幅 */
+.status-notice-hero {
+  border-left: 5px solid #225ca3;
+  background: #f0f6ff;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.status-notice-hero h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  color: #174f91;
+}
+
+.status-notice-hero p {
+  margin: 4px 0 12px;
+  color: #435467;
+  font-size: 14px;
+}
+
+.hero-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #d8e5f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.hero-progress-bar span {
+  display: block;
+  height: 100%;
+  background: #225ca3;
+  transition: width 0.3s ease;
+}
+
+/* 冠军晋级历程 (Champion Journey) */
+.journey-timeline {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.journey-step {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #d9dee5;
+  border-radius: 6px;
+  padding: 14px;
+  position: relative;
+}
+
+.journey-step.is-final {
+  border-color: #e8b339;
+  background: #fffef8;
+}
+
+.journey-step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #52606e;
+  margin-bottom: 8px;
+}
+
+.journey-step-header b {
+  color: #1d2733;
+}
+
+.journey-versus {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.journey-score {
+  display: inline-block;
+  background: #edf8f0;
+  color: #176337;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid #c2e5cc;
+}
+
+/* 排名榜单工具栏与表格 */
+.standings-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.standings-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.standings-search-box input {
+  height: 38px;
+  width: 220px;
+}
+
+.standings-sort-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.standings-sort-box select {
+  height: 38px;
+}
+
+.standings-table {
+  min-width: 720px;
+  table-layout: fixed;
+  margin: 0;
+}
+
+.standings-table th:nth-child(1) { width: 10%; } /* 名次 */
+.standings-table th:nth-child(2) { width: 22%; } /* 选手 */
+.standings-table th:nth-child(3) { width: 18%; } /* 止步轮次 */
+.standings-table th:nth-child(4) { width: 12%; } /* 战绩 */
+.standings-table th:nth-child(5) { width: 14%; } /* 得失分 */
+.standings-table th:nth-child(6) { width: 12%; } /* 净胜分 */
+.standings-table th:nth-child(7) { width: 12%; } /* 胜率 */
+
+.rank-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  background: #eef2f6;
+  color: #334155;
+}
+
+.rank-badge.rank-1 {
+  background: #fef08a;
+  color: #854d0e;
+  border: 1px solid #facc15;
+}
+
+.rank-badge.rank-2 {
+  background: #e2e8f0;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.rank-badge.rank-3 {
+  background: #fed7aa;
+  color: #9a3412;
+  border: 1px solid #fdba74;
+}
+
+.player-name-cell {
+  font-weight: 600;
+  color: #174f91;
+}
+
+.diff-positive {
+  color: #176337;
+  font-weight: 600;
+}
+
+.diff-negative {
+  color: #b43335;
+}
+
+/* 比赛记录筛选与对阵网格 */
+.match-filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: #fff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover {
+  background: #f1f5f9;
+}
+
+.tab-btn.active {
+  background: #225ca3;
+  color: #fff;
+  border-color: #225ca3;
+  font-weight: 600;
+}
+
+.match-history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.match-history-card {
+  border: 1px solid #d9dee5;
+  background: #fff;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.match-history-card.completed {
+  border-left: 4px solid #176337;
+}
+
+.match-history-card.pending {
+  border-left: 4px solid #94a3b8;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #52606e;
+  margin-bottom: 10px;
+}
+
+.card-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #f0f2f5;
+  font-size: 14px;
+}
+
+.card-score-row:last-of-type {
+  border-bottom: none;
+}
+
+.card-score-row.winner-row {
+  font-weight: 700;
+  color: #176337;
+}
+
+.score-badge {
+  font-size: 14px;
+  font-weight: 700;
+  background: #f1f4f8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  min-width: 32px;
+  text-align: center;
+}
+
+.winner-row .score-badge {
+  background: #e8f5ec;
+  color: #176337;
+}
+
+/* 统计卡片与指标网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.stat-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.stat-item dt {
+  font-size: 13px;
+  color: #52606e;
+  margin-bottom: 4px;
+}
+
+.stat-item dd {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1d2733;
+}
+
+.stat-item .stat-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* 底部操作与导出按钮条 */
+.export-panel {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.export-panel .button-success {
+  background: #176337;
+  border-color: #176337;
+}
+
+.export-panel .button-success:hover {
+  background: #114b29;
+}
+
+/* 打印样式适配 */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  header nav,
+  .tournament-picker-card,
+  .export-panel,
+  .standings-toolbar,
+  .match-filter-tabs,
+  button {
+    display: none !important;
+  }
+  section {
+    border: 1px solid #999;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  .champion-hero {
+    border: 2px solid #000;
+    box-shadow: none;
+  }
+}
+
+/* 响应式断点 */
+@media (max-width: 800px) {
+  .podium-container {
+    grid-template-columns: 1fr;
+  }
+  .podium-1 {
+    order: 1;
+  }
+  .podium-2 {
+    order: 2;
+  }
+  .podium-3 {
+    order: 3;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .champion-name {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .standings-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .standings-search-box input {
+    width: 100%;
+  }
+}
