@@ -1,61 +1,70 @@
 # Tournament Organiser
 
-8 人单淘汰赛基础网站。支持创建多场比赛、填写并保存选手、按顺序或随机抽签生成对阵、录入比分、自动晋级、显示冠军、恢复比赛进度和导出文字结果。
+A basic 8-player single-elimination tournament website. It is split into three pages, like most tournament platforms: a tournaments list, a tournament page with Overview / Participants / Bracket / Standings tabs, and a create page. It supports creating multiple tournaments, entering and saving players, generating the bracket in list order or by random draw, recording scores, automatic advancement, showing the champion, restoring tournament progress and exporting a text result.
 
-## 本地运行
+## Running locally
 
-解压源代码包，进入 `tournament-organiser` 文件夹。本项目使用 HTML、CSS 和 JavaScript，不需要安装前端依赖或配置数据库。下面使用 Python 3 提供本地静态网页服务，电脑需要先安装 Python 3。
+Unzip the source package and enter the `tournament-organiser` folder. This project uses HTML, CSS and JavaScript, so there are no frontend dependencies to install and no database to configure. The steps below use Python 3 to serve the static site locally, so Python 3 must be installed first.
 
-Windows：在此文件夹打开终端，运行：
+Windows: open a terminal in this folder and run:
 
 ```text
 py -3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-如果没有 `py` 命令，也可使用：
+If the `py` command is not available, use:
 
 ```text
 python -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-macOS 或 Linux：
+macOS or Linux:
 
 ```text
 python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-然后在浏览器打开 `http://127.0.0.1:8765`，使用期间保持终端开启，按 Ctrl+C 停止服务。如果端口被占用，可把命令与网址中的 `8765` 同时换为 `8766`。
+Then open `http://127.0.0.1:8765` in a browser, keep the terminal open while using it, and press Ctrl+C to stop the server. If the port is already in use, change `8765` in both the command and the URL to `8766`.
 
-也可以使用其他静态网站服务器，网页根目录设为 `dist`。通过 HTTP 打开，不要直接双击 HTML 文件。
+Any other static site server also works, with `dist` as the document root. Open the site over HTTP; do not double-click the HTML file.
 
-## 发给组员
+## Sending it to teammates
 
-把完整 ZIP 包发给组员即可，对方解压后按上面的说明独立运行。`127.0.0.1` 只指向各自电脑，直接把你的本地网址发给别人无法访问你的服务。源代码包不包含浏览器中的比赛记录；每个人运行后创建和保存自己的比赛。
+Send the complete ZIP package to your teammates, and they can unzip it and run it independently as described above. `127.0.0.1` only points to each person's own computer, so sending someone your local URL will not let them access your server. The source package does not contain the tournament records in your browser; everyone creates and saves their own tournaments after starting the site.
 
-## 使用
+## Usage
 
-1. 填写比赛名称并创建比赛。
-2. 输入 8 个不同的选手姓名，或使用“填入示例选手”。
-3. 选择顺序对阵或随机抽签，点击“生成对阵并锁定选手”。
-4. 在每场比赛输入整数比分并保存；对应胜者自动进入下一轮。
-5. 完成 4 场四分之一决赛、2 场半决赛和 1 场决赛后显示冠军。
-6. 结果自动保存，也可点击“保存比赛”或“导出比赛结果”。
+The site uses an organiser dashboard: a dark sidebar for navigation, a top bar with the workspace breadcrumb, and a page header that shows the tournament name and its status.
 
-## 规则与保存范围
+1. The home page lists every tournament saved in this browser with its format, players, status, champion and creation date. Use the search box and the status filter to narrow it down.
+2. Click "New tournament", enter a name and create it; the new tournament page opens on the Participants tab.
+3. Enter 8 different player names, or use "Fill in sample players".
+4. Choose an in-order draw or a random draw, then click "Generate bracket and lock players".
+5. On the Bracket tab, enter integer scores for each match and save; the winner advances to the next round automatically.
+6. The Standings tab ranks players by matches won, then by fewest losses, and marks the champion and eliminated players.
+7. The Overview tab shows the match progress, the champion card once all 7 matches are decided, and the "Export results" button.
+8. Progress is saved automatically; the sidebar links move between the list, the create page and the tournament tabs.
 
-- 当前版本固定 8 人，不处理其他人数的轮空。
-- 比分为 0–9999 的整数，不接受平局、负数或小数。
-- 后续比赛未产生比分时可修改本场；后续已有比分则锁定本场，防止晋级数据矛盾。
-- 生成对阵后锁定名单；可创建另一场比赛重新试用。
-- 数据保存在当前浏览器、当前网站地址的 localStorage 中。刷新或重开同一地址可恢复，清除网站数据会删除记录；不同浏览器、设备和网站地址之间不自动共享。
-- 导出为可阅读的文本结果，用于留存；当前不支持导入或恢复导出文件。
+## Rules and saving scope
 
-## 文件与验证
+- The current version is fixed at 8 players and does not handle byes for other entry counts.
+- Scores are integers from 0 to 9999; ties, negative numbers and decimals are not accepted.
+- A match can be edited while later matches have no score; once a later match has a score, this match is locked to prevent inconsistent advancement data.
+- The roster is locked after the bracket is generated; create another tournament to try again.
+- Data is stored in localStorage for the current browser and the current site address. Refreshing or reopening the same address restores it, and clearing site data deletes the records; different browsers, devices and site addresses do not share it automatically.
+- Exported results are readable text for record keeping; importing or restoring an exported file is not supported yet.
 
-- `dist/index.html`：页面结构。
-- `dist/style.css`：基础布局。
-- `dist/app.js`：页面交互及浏览器保存。
-- `dist/tournament.js`：比赛规则、数据验证和结果导出。
-- `tests/tournament.test.js`：七场比赛完整流程、比分限制、修改锁定、抽签与持久化测试。
+## Files and verification
 
-开发者可安装 Node.js 22 或更新版本，然后运行 `node --test tests/tournament.test.js` 执行规则测试。Node.js 仅用于这些测试，不是运行网页的必需条件。此版本无需安装第三方依赖。
+- `dist/index.html`: tournaments list page.
+- `dist/tournament.html`: tournament page with the Overview, Participants, Bracket and Standings tabs.
+- `dist/create.html`: create page for a new tournament name.
+- `dist/style.css`: dashboard shell, cards, tabs, bracket and table styles.
+- `dist/list.js`: list rendering, search and status filter.
+- `dist/detail.js`: tournament page rendering, tabs, players, scores, standings and export.
+- `dist/create.js`: create form handling.
+- `dist/store.js`: shared storage and formatting helpers.
+- `dist/tournament.js`: tournament rules, data validation and result export.
+- `tests/tournament.test.js`: tests for the full seven-match flow, score limits, edit locking, the draw and persistence.
+
+Developers can install Node.js 22 or newer and then run `node --test tests/tournament.test.js` to run the rules tests. Node.js is only needed for these tests, not to run the site. This version requires no third-party dependencies.

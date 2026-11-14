@@ -1,29 +1,96 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="创建8人单淘汰赛，管理参赛者、记录比分、自动晋级并保存结果。">
-  <title>Tournament Organiser · 赛事管理</title>
-  <link rel="stylesheet" href="./style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tournaments · Tournament Organiser</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header><h1>Tournament Organiser</h1><p>8 人单淘汰赛 · 基础版</p></header>
-  <main>
-    <p class="storage-note">比赛会自动保存在当前浏览器，刷新后可继续。不同设备之间暂不共享；重要结果可以导出备份。</p>
-    <div id="message" role="status" aria-live="polite" hidden></div>
-    <section aria-labelledby="create-title">
-      <h2 id="create-title">1. 创建比赛</h2>
-      <form id="create-form" class="inline-form">
-        <label for="tournament-name">比赛名称</label>
-        <input id="tournament-name" name="name" maxlength="80" placeholder="例如：班级乒乓球赛" required autocomplete="off">
-        <button type="submit">创建比赛</button>
-      </form>
-      <div id="saved-list" class="saved-list"></div>
-    </section>
-    <div id="workspace"><section class="empty">先创建一场比赛，再添加 8 名参赛者。</section></div>
-  </main>
-  <footer>单淘汰规则：每场必须分出胜负；四分之一决赛 → 半决赛 → 决赛。</footer>
-  <script type="module" src="./app.js"></script>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3"/><path d="M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4"/><path d="M9 21h6"/></svg></span>
+      <span class="brand-name"><strong>TOURNAMENT</strong><small>ORGANISER</small></span>
+    </div>
+
+    <p class="nav-label">Tournament workspace</p>
+    <nav class="nav">
+      <a class="nav-item is-active" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tournaments</a>
+      <a class="nav-item" href="create.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Create tournament</a>
+      <a class="nav-item" href="tournament.html#participants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16.5 5.2a3 3 0 0 1 0 5.6"/><path d="M18 19a5 5 0 0 0-2.2-4.1"/></svg>Participants</a>
+      <a class="nav-item" href="tournament.html#bracket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v6a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v4"/><path d="M3.5 4h5"/><path d="M15.5 20h5"/></svg>Bracket</a>
+      <a class="nav-item" href="tournament.html#standings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3"/><path d="M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4"/><path d="M9 21h6"/></svg>Standings</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <span class="avatar">O</span>
+      <span class="who"><strong>Organiser</strong><small>Tournament admin</small></span>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <div class="crumbs">Tournament workspace <span>/</span> Tournaments</div>
+      <div class="env"><span class="dot"></span>Local tournament</div>
+    </header>
+
+    <main class="page">
+      <header class="page-head">
+        <p class="eyebrow">Tournament management</p>
+        <div class="title-row">
+          <h1>Tournaments</h1>
+          <span class="pill" id="count-pill">0 tournaments</span>
+        </div>
+        <p class="page-lead">Every tournament saved in this browser, from first draft to champion.</p>
+      </header>
+
+      <div class="alert" id="message" hidden></div>
+
+      <section class="stats" aria-label="Summary">
+        <div class="stat"><span class="stat-label">Tournaments</span><strong id="stat-total">0</strong></div>
+        <div class="stat"><span class="stat-label"><span class="dot"></span>In progress</span><strong id="stat-live">0</strong></div>
+        <div class="stat"><span class="stat-label"><span class="dot dot-ok"></span>Finished</span><strong id="stat-done">0</strong></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>All tournaments</h2>
+          <a class="btn" href="create.html">New tournament</a>
+        </div>
+
+        <div class="toolbar">
+          <label class="search">
+            <span class="sr-only">Search tournaments</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+            <input type="text" id="search" placeholder="Search by tournament name" autocomplete="off">
+          </label>
+          <select id="status-filter" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="Not started">Not started</option>
+            <option value="In progress">In progress</option>
+            <option value="Finished">Finished</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Tournament</th><th>Format</th><th>Players</th><th>Status</th><th>Champion</th><th>Created</th></tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+
+        <div class="empty" id="empty" hidden></div>
+      </section>
+    </main>
+
+    <footer class="foot">Tournament management system · Tournaments list.</footer>
+  </div>
+</div>
+
+<script type="module" src="list.js"></script>
 </body>
 </html>

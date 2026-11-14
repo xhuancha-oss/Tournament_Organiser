@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create tournament · Tournament Organiser</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3"/><path d="M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4"/><path d="M9 21h6"/></svg></span>
+      <span class="brand-name"><strong>TOURNAMENT</strong><small>ORGANISER</small></span>
+    </div>
+
+    <p class="nav-label">Tournament workspace</p>
+    <nav class="nav">
+      <a class="nav-item" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tournaments</a>
+      <a class="nav-item is-active" href="create.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Create tournament</a>
+      <a class="nav-item" href="tournament.html#participants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16.5 5.2a3 3 0 0 1 0 5.6"/><path d="M18 19a5 5 0 0 0-2.2-4.1"/></svg>Participants</a>
+      <a class="nav-item" href="tournament.html#bracket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v6a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v4"/><path d="M3.5 4h5"/><path d="M15.5 20h5"/></svg>Bracket</a>
+      <a class="nav-item" href="tournament.html#standings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3"/><path d="M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4"/><path d="M9 21h6"/></svg>Standings</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <span class="avatar">O</span>
+      <span class="who"><strong>Organiser</strong><small>Tournament admin</small></span>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <div class="crumbs"><a href="index.html">Tournament workspace</a> <span>/</span> Create tournament</div>
+      <div class="env"><span class="dot"></span>Local tournament</div>
+    </header>
+
+    <main class="page">
+      <header class="page-head">
+        <p class="eyebrow">New tournament</p>
+        <div class="title-row"><h1>Create a tournament</h1><span class="pill">Step 1 of 2</span></div>
+        <p class="page-lead">Start with a name. You add the eight players on the tournament page.</p>
+      </header>
+
+      <div class="alert" id="message" hidden></div>
+
+      <section class="card narrow">
+        <div class="card-head"><h2>Tournament name</h2></div>
+        <form id="create-form">
+          <label class="field">
+            <span class="sr-only">Tournament name</span>
+            <input type="text" id="tournament-name" name="name" maxlength="80" autocomplete="off"
+                   placeholder="e.g. Class Table Tennis Tournament" required>
+          </label>
+          <p class="hint">Up to 80 characters. You can rename the players later; the name stays as entered.</p>
+          <div class="card-actions">
+            <button class="btn" type="submit">Create tournament</button>
+            <a class="btn btn-ghost" href="index.html">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="foot">Tournament management system · 8-player single elimination.</footer>
+  </div>
+</div>
+
+<script type="module" src="create.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tournament · Tournament Organiser</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3"/><path d="M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4"/><path d="M9 21h6"/></svg></span>
+      <span class="brand-name"><strong>TOURNAMENT</strong><small>ORGANISER</small></span>
+    </div>
+
+    <p class="nav-label">Tournament workspace</p>
+    <nav class="nav">
+      <a class="nav-item" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tournaments</a>
+      <a class="nav-item" href="create.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Create tournament</a>
+      <a class="nav-item" data-tab-link="participants" href="#participants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16.5 5.2a3 3 0 0 1 0 5.6"/><path d="M18 19a5 5 0 0 0-2.2-4.1"/></svg>Participants</a>
+      <a class="nav-item" data-tab-link="bracket" href="#bracket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v6a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v4"/><path d="M3.5 4h5"/><path d="M15.5 20h5"/></svg>Bracket</a>
+      <a class="nav-item" data-tab-link="standings" href="#standings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3"/><path d="M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4"/><path d="M9 21h6"/></svg>Standings</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <span class="avatar">O</span>
+      <span class="who"><strong>Organiser</strong><small>Tournament admin</small></span>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <div class="crumbs">Tournament workspace <span>/</span> <a href="index.html">Tournaments</a> <span>/</span> <span id="crumb-name">Tournament</span></div>
+      <div class="env"><span class="dot"></span>Local tournament</div>
+    </header>
+
+    <main class="page">
+      <header class="page-head">
+        <p class="eyebrow">Tournament</p>
+        <div class="title-row">
+          <h1 id="page-title">Tournament</h1>
+          <span class="pill" id="page-status">Not started</span>
+        </div>
+        <p class="page-lead" id="page-lead"></p>
+      </header>
+
+      <div class="alert" id="message" hidden></div>
+
+      <div id="missing" hidden>
+        <section class="card empty">
+          <strong>This tournament is not in this browser</strong>
+          <p class="hint">It may have been deleted or saved in another browser.</p>
+          <p class="hint"><a class="btn" href="index.html">Back to tournaments</a></p>
+        </section>
+      </div>
+
+      <div id="view" hidden>
+        <nav class="tabs" role="tablist" aria-label="Tournament sections">
+          <button class="tab" role="tab" data-tab="overview" type="button">Overview</button>
+          <button class="tab" role="tab" data-tab="participants" type="button">Participants</button>
+          <button class="tab" role="tab" data-tab="bracket" type="button">Bracket</button>
+          <button class="tab" role="tab" data-tab="standings" type="button">Standings</button>
+        </nav>
+
+        <section class="panel" id="panel-overview" role="tabpanel">
+          <div class="detail-grid">
+            <div class="card">
+              <div class="card-head"><h2>Details</h2></div>
+              <dl class="kv">
+                <dt>Format</dt><dd>8-player single elimination</dd>
+                <dt>Players</dt><dd id="detail-players">0 / 8</dd>
+                <dt>Created</dt><dd id="detail-created"></dd>
+                <dt>Last updated</dt><dd id="detail-updated"></dd>
+                <dt>Champion</dt><dd id="detail-champion">Not decided yet</dd>
+              </dl>
+            </div>
+            <div class="card">
+              <div class="card-head"><h2>Progress</h2><strong class="progress-value" id="overview-percent">0%</strong></div>
+              <div class="bar"><span id="overview-bar" style="width:0%"></span></div>
+              <p class="stat-note" id="overview-note">0 / 7 matches completed</p>
+              <div class="card-actions">
+                <button class="btn btn-ghost" id="export-results" type="button">Export results</button>
+                <button class="btn" id="open-bracket" type="button">Open bracket</button>
+              </div>
+            </div>
+          </div>
+          <div class="card champion" id="overview-champion" hidden>
+            <div class="card-head"><h2>Tournament finished</h2><span class="pill pill-ok">Champion</span></div>
+            <strong id="champion-name"></strong>
+            <p class="hint">All 7 matches are complete. The champion and scores have been saved automatically.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-participants" role="tabpanel" hidden>
+          <section class="card">
+            <div class="card-head"><h2>Participants</h2><span class="pill" id="players-pill">0 / 8</span></div>
+            <form id="players-form" novalidate>
+              <div class="players" id="player-fields"></div>
+              <div class="card-actions">
+                <label class="inline-label" for="draw-mode">First-round draw</label>
+                <select id="draw-mode">
+                  <option value="ordered">In list order (1 vs 2, 3 vs 4…)</option>
+                  <option value="random">Random draw</option>
+                </select>
+                <button class="btn" type="submit" id="generate-button">Generate bracket and lock players</button>
+                <button class="btn btn-ghost" type="button" id="sample-button">Fill in sample players</button>
+              </div>
+            </form>
+            <div id="locked-players" hidden>
+              <ul class="player-chips" id="player-chips"></ul>
+              <p class="hint">Players are locked. After the tournament starts you cannot add or remove players or redraw.</p>
+            </div>
+            <p class="hint">Eight different names are required; add a number for players with the same name. Changes are saved automatically.</p>
+          </section>
+        </section>
+
+        <section class="panel" id="panel-bracket" role="tabpanel" hidden>
+          <section class="card">
+            <div class="card-head"><h2>Bracket and scores</h2><span class="pill" id="bracket-pill">0 / 7 completed</span></div>
+            <div class="bracket" id="bracket-body"></div>
+            <p class="hint">Scores must be whole numbers from 0 to 9999, and ties are not allowed. You can change a result while later matches have no score yet.</p>
+          </section>
+        </section>
+
+        <section class="panel" id="panel-standings" role="tabpanel" hidden>
+          <section class="card">
+            <div class="card-head"><h2>Standings</h2><span class="pill" id="standings-pill">0 scored</span></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Rank</th><th>Player</th><th>Played</th><th>Won</th><th>Lost</th><th>Status</th></tr></thead>
+                <tbody id="standings-rows"></tbody>
+              </table>
+            </div>
+            <p class="hint">Ranked by matches won, then by fewest losses. Ties keep the order players were entered.</p>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <footer class="foot">Tournament management system · Single elimination bracket.</footer>
+  </div>
+</div>
+
+<script type="module" src="detail.js"></script>
+</body>
+</html>
