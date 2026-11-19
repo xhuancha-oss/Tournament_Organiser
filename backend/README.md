@@ -1,8 +1,7 @@
 # Tournament Manager — Backend
 
-Flask + SQLite API for the tournament management frontend. The static page in
-`tournament-create-frontend/` submits `POST /api/tournaments`; this service
-validates, stores and returns the tournament.
+Flask + SQLite API for the tournament management frontend. The Bracket page
+reads tournaments, fixtures and results from this service.
 
 ## Architecture
 
@@ -54,7 +53,7 @@ backend/
 
 ## Run locally
 
-Keep `backend/` and `tournament-create-frontend/` next to each other in the
+Keep `backend/` and `tournament-organiser/` next to each other in the
 project root. From that root, install the dependencies and start the app.
 
 ```bash
@@ -66,12 +65,25 @@ python3 -m server.run
 If you are already in `backend/`, skip `cd backend`. Once the dependencies
 are installed, restart the app with `python3 -m server.run`.
 
-Open [the tournament creation page](http://127.0.0.1:5000/) in your browser.
-Flask serves the page and API on the same port. Submitting the form calls
-`POST /api/tournaments` and saves the tournament to SQLite.
+Open [the tournament list](http://127.0.0.1:5000/) in your browser and choose
+**View bracket**. Flask serves the UI and API on the same port.
 
 To check the saved records, open [the tournament list API](http://127.0.0.1:5000/api/tournaments).
 An empty database returns `{"tournaments":[]}`.
+
+### View a bracket
+
+- `/bracket.html` lets you select a server tournament. Open
+  `/bracket.html?id=42` to select a specific tournament. Private tournaments
+  require the existing organiser session cookie.
+- For published tournaments, `/bracket.html?public=1&id=42` opens a read-only
+  view using the public event API.
+- The view reads the schedule and scores saved by the workspace API. To create
+  server data, use `POST /api/tournaments` and configure the workspace via
+  `PUT /api/tournaments/<id>/workspace`. The existing browser-only forms store
+  a separate set of tournaments in localStorage.
+- For a match with both entrants decided, **Live** is estimated from its
+  scheduled start during the tournament window. Saved scores show **Completed**.
 
 ### Run a tournament
 

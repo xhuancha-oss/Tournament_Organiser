@@ -21,7 +21,7 @@ from server.config import BACKEND_DIR, Settings
 from service.tournament_service import TournamentService
 
 SCHEMA_PATH = BACKEND_DIR / "db" / "schema.sql"
-FRONTEND_DIR = BACKEND_DIR.parent / "tournament-create-frontend"
+FRONTEND_DIR = BACKEND_DIR.parent / "tournament-organiser" / "dist"
 
 
 def create_app(settings: Optional[Settings] = None) -> Flask:
@@ -33,7 +33,7 @@ def create_app(settings: Optional[Settings] = None) -> Flask:
     repository = SqliteTournamentRepository(pool)
     service = TournamentService(repository)
 
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder=str(FRONTEND_DIR), static_url_path="")
     app.config["MAX_CONTENT_LENGTH"] = 32 * 1024 * 1024
     app.extensions["sqlite_pool"] = pool
     app.extensions["tournament_repository"] = repository
@@ -49,12 +49,8 @@ def create_app(settings: Optional[Settings] = None) -> Flask:
 
 def _register_frontend_routes(app: Flask) -> None:
     @app.get("/")
-    def create_tournament_page():
+    def tournament_list_page():
         return send_from_directory(FRONTEND_DIR, "index.html")
-
-    @app.get("/<any(css,js):directory>/<path:filename>")
-    def frontend_asset(directory: str, filename: str):
-        return send_from_directory(FRONTEND_DIR / directory, filename)
 
 
 def _allow_local_frontend_origins(app: Flask) -> None:
