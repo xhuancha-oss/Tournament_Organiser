@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bracket · Tournament Organiser</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="bracket.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">T</span>
+        <span class="brand-name"><strong>TOURNAMENT</strong><small>ORGANISER</small></span>
+      </div>
+      <p class="nav-label">Tournament workspace</p>
+      <nav class="nav" aria-label="Tournament workspace">
+        <a class="nav-item" href="index.html">Tournaments</a>
+        <a class="nav-item" href="create.html">Create tournament</a>
+        <a class="nav-item" href="tournament.html#participants">Participants</a>
+        <a class="nav-item is-active" href="bracket.html" aria-current="page">Bracket</a>
+        <a class="nav-item" href="tournament.html#standings">Standings</a>
+      </nav>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="crumbs bracket-crumbs"><a href="index.html">Tournaments</a> <span>/</span> Bracket</div>
+      </header>
+      <main class="page">
+        <header class="page-head bracket-page-head">
+          <h1>Tournament Bracket</h1>
+          <div class="bracket-controls">
+            <label id="bracket-picker" hidden>Tournament
+              <select id="bracket-tournament"></select>
+            </label>
+            <button class="btn btn-ghost" id="bracket-refresh" type="button">Refresh bracket</button>
+          </div>
+        </header>
+        <div id="bracket-error" class="alert alert-error" role="alert" hidden></div>
+        <div id="bracket-loading" class="card empty" role="status">Loading bracket…</div>
+        <noscript><p class="alert alert-error">Enable JavaScript to view the tournament bracket.</p></noscript>
+        <article id="bracket-event" class="card bracket-event" aria-labelledby="bracket-event-name" hidden>
+          <div class="card-head">
+            <h2 id="bracket-event-name"></h2>
+            <span id="bracket-event-status" class="pill"></span>
+          </div>
+          <dl id="bracket-event-details" class="bracket-event-details"></dl>
+          <p id="bracket-description"></p>
+        </article>
+        <div id="bracket-empty" class="card empty" role="status" hidden></div>
+        <section id="bracket-board" class="card" aria-labelledby="bracket-matches-title" hidden>
+          <div class="card-head">
+            <h2 id="bracket-matches-title">Matches</h2>
+            <span id="bracket-progress" class="pill"></span>
+          </div>
+          <p id="bracket-champion" class="bracket-champion" hidden></p>
+          <p id="bracket-timing" class="hint" hidden>Live status is estimated from scheduled start times.</p>
+          <div id="bracket-rounds"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script type="module" src="bracket.js"></script>
+</body>
+</html>

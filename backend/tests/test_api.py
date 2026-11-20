@@ -91,19 +91,28 @@ def test_local_frontend_can_call_the_api(client):
     assert response.headers["Access-Control-Allow-Origin"] == "*"
 
 
-def test_home_serves_the_tournament_creation_page_and_assets(client):
+def test_home_links_to_the_bracket_and_serves_frontend_assets(client):
     page = client.get("/")
     assert page.status_code == 200
     assert page.mimetype == "text/html"
-    assert b'id="tournament-form"' in page.data
+    assert b'href="bracket.html"' in page.data
 
-    stylesheet = client.get("/css/create-tournament.css")
-    assert stylesheet.status_code == 200
-    assert stylesheet.mimetype == "text/css"
+    bracket = client.get("/bracket.html")
+    assert bracket.status_code == 200
+    assert bracket.mimetype == "text/html"
+    assert b'id="bracket-board"' in bracket.data
 
-    for filename in ("create-tournament.js", "config.js", "tournament-model.js",
-                     "tournament-service.js"):
-        response = client.get(f"/js/{filename}")
+    creation = client.get("/create.html")
+    assert creation.status_code == 200
+    assert b'id="create-form"' in creation.data
+
+    for filename in ("style.css", "bracket.css"):
+        stylesheet = client.get(f"/{filename}")
+        assert stylesheet.status_code == 200
+        assert stylesheet.mimetype == "text/css"
+
+    for filename in ("list.js", "create.js", "bracket.js", "bracket-model.js", "store.js"):
+        response = client.get(f"/{filename}")
         assert response.status_code == 200
         assert response.mimetype in ("text/javascript", "application/javascript")
 
