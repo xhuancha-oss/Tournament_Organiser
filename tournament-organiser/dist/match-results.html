@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#142337">
+  <meta name="description" content="赛事比分管理：录入、更正和核对比赛结果。">
+  <link rel="icon" href="data:,">
+  <title>比分管理 · Tournament Organiser</title>
+  <link rel="stylesheet" href="./match-results.css">
+</head>
+<body>
+  <div class="preview-app">
+    <aside class="preview-sidebar" aria-label="工作台导航">
+      <div class="preview-brand"><span data-icon="trophy"></span><div>TOURNAMENT<small>ORGANISER</small></div></div>
+      <div class="preview-nav-label">赛事工作台</div>
+      <nav aria-label="模块导航"><div><span data-icon="grid"></span>赛事列表</div><div><span class="preview-plus">＋</span>创建赛事</div><div><span data-icon="grid"></span>选手管理</div><div><span data-icon="grid"></span>对阵表</div><div class="active" aria-current="page"><span data-icon="edit"></span>比分管理<i></i></div><div><span data-icon="trophy"></span>冠军与结果</div></nav>
+      <div class="preview-sidebar-bottom"><span class="preview-user">M</span><div>赛事组织者<small>管理工作台</small></div><span class="preview-online"></span></div>
+    </aside>
+    <div class="preview-content">
+      <header class="preview-topbar"><span>赛事工作台 <span>/</span> 比分管理</span><div><span id="source-label" class="preview-demo-tag">赛事数据</span><span class="preview-user preview-user--small">M</span></div></header>
+      <main id="match-results-root" class="mr-page">
+        <div class="mr-breadcrumb"><span>赛事管理</span><span data-icon="chevron"></span><span id="breadcrumb-name">当前赛事</span><span data-icon="chevron"></span><strong>比分管理</strong></div>
+        <header class="mr-page-heading"><div><p class="mr-eyebrow">MATCH RESULTS</p><h1>比分管理<span class="mr-live"><i></i><span id="event-status">正在加载</span></span></h1><p class="mr-intro">记录每一场较量，让晋级清晰有序。</p></div><div class="mr-event-chip"><span data-icon="trophy"></span><div><strong id="event-name">当前赛事</strong><span id="event-format">单败淘汰赛</span></div></div></header>
+        <div class="mr-stats" aria-label="赛事进度">
+          <div><span>全部比赛</span><strong><span id="total-count">0</span><small>场</small></strong></div>
+          <div><span><i class="mr-dot mr-dot--blue"></i>待录入</span><strong><span id="ready-count">0</span><small>场</small></strong></div>
+          <div><span><i class="mr-dot mr-dot--green"></i>已完成</span><strong><span id="completed-count">0</span><small>场</small></strong></div>
+          <div class="mr-progress-stat"><span>赛事进度 <b id="progress-percent">0%</b></span><div id="match-progress" class="mr-progress-track" role="progressbar" aria-label="已完成比赛比例" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1"><i id="progress-fill"></i></div><small id="progress-text">0 / 0 场比赛已完成</small></div>
+        </div>
+        <section id="page-state" class="mr-empty" role="status"><span data-icon="refresh"></span><h2>正在载入比赛…</h2><p>请稍候，正在获取最新比分。</p></section>
+        <div id="workspace" class="mr-workspace" hidden>
+          <section class="mr-matches" aria-labelledby="mr-list-heading">
+            <div class="mr-list-heading"><h2 id="mr-list-heading">比赛列表 <span id="list-count">0</span></h2><div class="mr-list-tools"><span class="mr-list-tip">选择一场比赛，录入或修改比分</span><button id="refresh-results" class="mr-refresh" type="button"><span data-icon="refresh"></span>刷新</button></div></div>
+            <div id="round-tabs" class="mr-round-tabs" role="group" aria-label="按轮次筛选"></div>
+            <div class="mr-toolbar"><label class="mr-search"><span data-icon="search"></span><span class="mr-sr">搜索选手或比赛编号</span><input id="match-search" type="search" placeholder="搜索选手或比赛编号" autocomplete="off"></label><label class="mr-status-select"><span class="mr-sr">按比赛状态筛选</span><select id="status-filter"><option value="all">全部状态</option><option value="ready">待录入</option><option value="completed">已完成</option><option value="locked">已锁定</option><option value="waiting">等待晋级</option></select></label></div>
+            <div class="mr-table-wrap"><table class="mr-table"><thead><tr><th scope="col">场次 / 对阵</th><th scope="col">比分</th><th scope="col">状态</th><th scope="col"><span class="mr-sr">选择比赛</span></th></tr></thead><tbody id="match-rows"></tbody></table></div>
+            <div id="no-matches" class="mr-no-matches" hidden><span data-icon="search"></span><strong>没有符合条件的比赛</strong><p>试试其他姓名、轮次或比赛状态。</p><button id="clear-filters" class="mr-text-button" type="button">清除筛选</button></div>
+            <div class="mr-table-footer"><span id="visible-count">显示 0 / 0 场比赛</span><span id="last-update">暂无更新</span></div>
+            <div class="mr-rule-note"><span data-icon="lock"></span><p><strong>结果修改规则</strong>后续比赛已有结果时，上游比分将锁定，以保持晋级记录一致。</p></div>
+          </section>
+          <div id="editor-column" class="mr-editor-column">
+            <aside id="score-editor" class="mr-editor" aria-labelledby="editor-title" aria-busy="false">
+              <div class="mr-editor-heading"><div class="mr-icon-square"><span id="editor-icon" data-icon="edit"></span></div><div><h2 id="editor-title">录入比分</h2><p id="editor-round"></p></div><span id="editor-code" class="mr-match-code"></span></div>
+              <div class="mr-editor-state"><span id="editor-status"></span><span id="editor-updated">提交前请核对双方选手</span></div>
+              <form id="score-form" novalidate>
+                <fieldset id="score-fields"><legend class="mr-sr">双方选手与比分</legend>
+                  <div class="mr-scoreboard">
+                    <div class="mr-score-player"><span id="avatar-a" class="mr-avatar mr-avatar--0">?</span><strong id="player-a-name">选手待定</strong><span id="player-a-meta" class="mr-player-meta"></span><label id="score-a-label" class="mr-sr" for="score-a">选手一比分</label><input id="score-a" class="mr-score-input" type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="—" aria-describedby="score-rules"></div>
+                    <span class="mr-vs" aria-hidden="true">VS</span>
+                    <div class="mr-score-player"><span id="avatar-b" class="mr-avatar mr-avatar--1">?</span><strong id="player-b-name">选手待定</strong><span id="player-b-meta" class="mr-player-meta"></span><label id="score-b-label" class="mr-sr" for="score-b">选手二比分</label><input id="score-b" class="mr-score-input" type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="—" aria-describedby="score-rules"></div>
+                  </div>
+                  <div id="reason-field" class="mr-reason" hidden><label for="change-reason">修改原因 <span>必填</span></label><textarea id="change-reason" maxlength="300" placeholder="请简要说明本次比分更正的原因"></textarea></div>
+                </fieldset>
+                <p id="score-rules" class="mr-score-help">单场比分 · 0–9999 的整数 · 不接受平局</p>
+                <div id="editor-callout" class="mr-callout" hidden></div>
+                <div id="conflict-alert" class="mr-alert" role="alert" hidden><span id="conflict-message">这场比赛已有更新，当前输入已保留。</span><button id="load-latest" class="mr-text-button" type="button">载入最新比分</button></div>
+                <p id="save-error" class="mr-alert" role="alert" hidden></p>
+                <p id="save-success" class="mr-success" role="status" hidden></p>
+                <div id="confirm-panel" class="mr-confirm" role="group" aria-label="确认比赛结果" hidden><strong id="confirm-title">确认提交结果？</strong><p id="confirm-score"></p><span id="confirm-winner"></span><div class="mr-confirm-actions"><button id="back-to-edit" class="mr-button mr-button--muted" type="button">返回修改</button><button id="confirm-save" class="mr-button mr-button--primary" type="button">确认保存</button></div></div>
+                <button id="prepare-save" class="mr-button mr-button--primary mr-save" type="submit" disabled>保存比赛结果</button><button id="discard-input" class="mr-discard" type="button" hidden>撤销本次输入</button>
+              </form>
+              <div class="mr-editor-footer"><span data-icon="info"></span><p>保存后，胜者将进入下一轮。后续比赛已有结果时，本场将锁定。</p></div>
+            </aside>
+          </div>
+        </div>
+        <p id="page-notice" class="mr-page-notice" role="status" hidden></p>
+      </main>
+      <footer class="preview-footer"><div><span class="preview-footer-dot"></span><span id="footer-source">服务器数据</span></div><div id="demo-tools" hidden><label for="preview-scenario">预览场景</label><select id="preview-scenario"><option value="normal">正常比赛</option><option value="save-error">模拟保存失败</option><option value="loading">正在加载</option><option value="load-error">加载失败</option><option value="empty">暂无比赛</option></select><button id="reset-demo" type="button">重置示例</button></div></footer>
+    </div>
+  </div>
+  <noscript><p>请启用 JavaScript 后使用比分管理。</p></noscript>
+  <script type="module" src="./match-results.js"></script>
+</body>
+</html>
